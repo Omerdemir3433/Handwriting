@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Yazısı Tanıma - Tesseract.js</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>✍️ El Yazısı Tanıma Sistemi</h1>
+            <p>Tesseract.js ile el yazısından metne çeviri + Düzenleme</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <span class="upload-icon">📁</span>
+                        <h3>Resim Yükle</h3>
+                        <p>PNG, JPG veya JPEG formatında</p>
+                        <input type="file" id="imageInput" accept="image/*" hidden>
+                        <button class="btn-primary" onclick="document.getElementById('imageInput').click()">
+                            Dosya Seç
+                        </button>
+                    </div>
+                </div>
+
+                <div class="camera-section">
+                    <h3>Veya Kamera Kullan</h3>
+                    <div class="camera-controls">
+                        <button id="startCamera" class="btn-secondary">📷 Kamerayı Aç</button>
+                        <button id="captureBtn" class="btn-secondary" disabled>📸 Fotoğraf Çek</button>
+                    </div>
+                    <video id="cameraPreview" width="400" height="300" autoplay muted playsinline></video>
+                    <canvas id="captureCanvas" hidden></canvas>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <h3>Önizleme</h3>
+                <div class="image-preview">
+                    <img id="previewImage" src="" alt="Önizleme" style="display: none;">
+                    <div id="noPreview" class="no-preview">
+                        <span>👆</span>
+                        <p>Yukarıdan bir resim yükleyin veya fotoğraf çekin</p>
+                    </div>
+                </div>
+
+                <div class="processing-controls">
+                    <button id="processBtn" class="btn-process" disabled>
+                        <span class="btn-text">🔍 Metni Tanı</span>
+                        <span class="btn-loading" style="display: none;">
+                            <div class="loading-spinner"></div> İşleniyor...
+                        </span>
+                    </button>
+
+                    <div class="enhancement-options">
+                        <label>
+                            <input type="checkbox" id="enhanceContrast" checked>
+                            Kontrastı İyileştir
+                        </label>
+                        <label>
+                            <input type="checkbox" id="preprocessImage" checked>
+                            Görüntüyü İşle
+                        </label>
+                        <label>
+                            <select id="languageSelect">
+                                <option value="tur">Türkçe</option>
+                                <option value="eng">İngilizce</option>
+                                <option value="ell">Yunanca</option>
+                                <option value="fra">Fransızca</option>
+                            </select>
+                            Dil Seçimi
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <h3>Tanınan Metin</h3>
+                <div class="results-container">
+                    <div class="edit-controls">
+                        <button id="editToggle" class="btn-edit" disabled>
+                            <span class="edit-icon">✏️</span>
+                            <span class="edit-text">Düzenle</span>
+                        </button>
+                        <div class="edit-actions" id="editActions" style="display: none;">
+                            <button id="saveEdit" class="btn-save">✅ Kaydet</button>
+                            <button id="cancelEdit" class="btn-cancel">❌ İptal</button>
+                        </div>
+                    </div>
+
+                    <div id="results" class="results-text">
+                        <div class="placeholder">
+                            <span>📝</span>
+                            <p>Tanınan metin burada görünecek</p>
+                        </div>
+                    </div>
+
+                    <div class="results-actions">
+                        <button id="copyText" class="btn-action" disabled>
+                            📋 Kopyala
+                        </button>
+                        <button id="clearAll" class="btn-action">
+                            🗑️ Temizle
+                        </button>
+                        <button id="speakText" class="btn-action" disabled>
+                            🔊 Oku
+                        </button>
+                        <button id="downloadText" class="btn-action" disabled>
+                            💾 İndir
+                        </button>
+                    </div>
+
+                    <div class="confidence-meter">
+                        <div class="confidence-header">
+                            <span>Doğruluk Oranı:</span>
+                            <span id="confidenceValue">-%</span>
+                        </div>
+                        <div class="confidence-bar">
+                            <div id="confidenceFill" class="confidence-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="processing-info">
+                        <div id="progressText">Hazır</div>
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tips-section">
+            <h3>📌 Daha İyi Sonuç İçin İpuçları:</h3>
+            <ul>
+                <li>✅ İyi aydınlatılmış ortam kullanın</li>
+                <li>✅ Yazılar net ve okunaklı olsun</li>
+                <li>✅ Kağıdı düz ve paralel tutun</li>
+                <li>✅ Yüksek çözünürlüklü fotoğraf çekin</li>
+                <li>❌ Gölgelerden kaçının</li>
+                <li>❌ Bulanık fotoğraflardan kaçının</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tesseract.js -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
